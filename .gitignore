@@ -91,4 +91,10 @@ Thumbs.db
 # Log files
 *.log
 logs/
-/home/yash55-max/projects/new/Pasted image.png
+
+# Internal specification and reference documents
+TRD.md
+PRD.md
+Pasted image.png
+architecture.md
+app-flow.md
