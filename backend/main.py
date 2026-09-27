@@ -51,6 +51,8 @@ app.include_router(audit.router)
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 cwd = os.getcwd()
 frontend_candidates = [
+    os.path.join(root_dir, "public"),
+    os.path.join(cwd, "public"),
     os.path.join(root_dir, "frontend"),
     os.path.join(cwd, "frontend"),
 ]
@@ -74,6 +76,8 @@ def startup_event():
 def serve_index():
     index_candidates = [
         os.path.join(frontend_dir, "index.html"),
+        os.path.join(root_dir, "public", "index.html"),
+        os.path.join(cwd, "public", "index.html"),
         os.path.join(root_dir, "frontend", "index.html"),
         os.path.join(cwd, "frontend", "index.html"),
     ]

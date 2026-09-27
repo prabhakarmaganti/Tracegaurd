@@ -4,18 +4,10 @@
   "functions": {
     "api/index.py": {
       "maxDuration": 30,
-      "includeFiles": "{backend/**,frontend/**,db/**}"
+      "includeFiles": "{backend/**,public/**,frontend/**,db/**}"
     }
   },
   "rewrites": [
-    {
-      "source": "/static/:path*",
-      "destination": "/frontend/:path*"
-    },
-    {
-      "source": "/frontend/:path*",
-      "destination": "/frontend/:path*"
-    },
     {
       "source": "/api/(.*)",
       "destination": "/api/index.py?__path=$1"
@@ -39,18 +31,6 @@
     {
       "source": "/health",
       "destination": "/api/index.py?__path=health"
-    },
-    {
-      "source": "/favicon.ico",
-      "destination": "/api/index.py?__path=favicon.ico"
-    },
-    {
-      "source": "/index.html",
-      "destination": "/frontend/index.html"
-    },
-    {
-      "source": "/",
-      "destination": "/frontend/index.html"
     }
   ]
 }
