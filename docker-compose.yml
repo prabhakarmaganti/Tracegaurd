@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  traceguard:
+    build: .
+    container_name: traceguard-plant1
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - TRACEGUARD_DB_PATH=/app/data/traceguard.db
