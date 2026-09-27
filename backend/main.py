@@ -47,9 +47,17 @@ app.include_router(master_data.router)
 app.include_router(reports.router)
 app.include_router(audit.router)
 
-# Mount static files
-static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+# Mount static assets (supports both 'frontend' and 'static' directory structures)
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+static_candidates = [
+    os.path.join(root_dir, "frontend"),
+    os.path.join(root_dir, "static"),
+]
+static_dir = next((p for p in static_candidates if os.path.isdir(p)), os.path.join(root_dir, "frontend"))
+
+if os.path.isdir(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+    app.mount("/frontend", StaticFiles(directory=static_dir), name="frontend")
 
 
 @app.on_event("startup")
@@ -59,6 +67,14 @@ def startup_event():
 
 @app.get("/")
 def serve_index():
+    index_candidates = [
+        os.path.join(static_dir, "index.html"),
+        os.path.join(root_dir, "frontend", "index.html"),
+        os.path.join(root_dir, "static", "index.html"),
+    ]
+    for candidate in index_candidates:
+        if os.path.isfile(candidate):
+            return FileResponse(candidate)
     return FileResponse(os.path.join(static_dir, "index.html"))
 
 
