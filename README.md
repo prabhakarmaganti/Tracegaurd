@@ -121,12 +121,3 @@ The seeded environment pre-populates realistic manufacturing records matching th
 
 ---
 
-## 6. Architecture and Design Documentation
-
-Detailed architecture diagrams, sequence flows, and entity relationship mappings are available in:
-- `SYSTEM_ARCHITECTURE.md`: Flowcharts, component mappings, and dataflow lifecycle diagrams
-- `PRD.md`: Product Requirements Document
-- `TRD.md`: Technical Requirements Document
-- `architecture.md`: Architectural specification and ER diagram
-- `app-flow.md`: Role-based user journey flows
-- `design.md`: Visual tokens, typographic scale, and interface specifications
