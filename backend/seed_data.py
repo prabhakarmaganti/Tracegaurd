@@ -1,7 +1,7 @@
 import datetime
 from sqlalchemy.orm import Session
-from app import models
-from app.database import Base, SessionLocal, engine
+from backend import models
+from backend.database import Base, SessionLocal, engine
 
 
 def seed_database(db: Session = None):

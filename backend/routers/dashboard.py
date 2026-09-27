@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app import crud, database
+from backend import crud, database
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 

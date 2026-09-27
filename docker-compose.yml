@@ -8,6 +8,6 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./data:/app/data
+      - ./db:/app/db
     environment:
-      - TRACEGUARD_DB_PATH=/app/data/traceguard.db
+      - TRACEGUARD_DB_PATH=/app/db/traceguard.db

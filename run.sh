@@ -11,7 +11,7 @@ if [ ! -d "venv" ]; then
 fi
 
 echo "Seeding initial database if needed..."
-./venv/bin/python -m app.seed_data
+./venv/bin/python -m backend.seed_data
 
 echo "Starting TraceGuard on http://localhost:8000..."
-exec ./venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+exec ./venv/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload

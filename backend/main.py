@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.database import Base, engine
-from app.routers import (
+from backend.database import Base, engine
+from backend.routers import (
     audit,
     batches,
     dashboard,
@@ -16,7 +16,7 @@ from app.routers import (
     reports,
     trace,
 )
-from app.seed_data import seed_database
+from backend.seed_data import seed_database
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -47,35 +47,40 @@ app.include_router(master_data.router)
 app.include_router(reports.router)
 app.include_router(audit.router)
 
-# Mount static assets (supports both 'frontend' and 'static' directory structures)
+# Mount static assets from frontend directory
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-static_candidates = [
+cwd = os.getcwd()
+frontend_candidates = [
     os.path.join(root_dir, "frontend"),
-    os.path.join(root_dir, "static"),
+    os.path.join(cwd, "frontend"),
 ]
-static_dir = next((p for p in static_candidates if os.path.isdir(p)), os.path.join(root_dir, "frontend"))
+frontend_dir = next((p for p in frontend_candidates if os.path.isdir(p)), os.path.join(root_dir, "frontend"))
 
-if os.path.isdir(static_dir):
-    app.mount("/static", StaticFiles(directory=static_dir), name="static")
-    app.mount("/frontend", StaticFiles(directory=static_dir), name="frontend")
+if os.path.isdir(frontend_dir):
+    app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+    app.mount("/frontend", StaticFiles(directory=frontend_dir), name="frontend")
 
 
 @app.on_event("startup")
 def startup_event():
-    seed_database()
+    try:
+        Base.metadata.create_all(bind=engine)
+        seed_database()
+    except Exception as e:
+        print(f"Database startup initialization note: {e}")
 
 
 @app.get("/")
 def serve_index():
     index_candidates = [
-        os.path.join(static_dir, "index.html"),
+        os.path.join(frontend_dir, "index.html"),
         os.path.join(root_dir, "frontend", "index.html"),
-        os.path.join(root_dir, "static", "index.html"),
+        os.path.join(cwd, "frontend", "index.html"),
     ]
     for candidate in index_candidates:
         if os.path.isfile(candidate):
             return FileResponse(candidate)
-    return FileResponse(os.path.join(static_dir, "index.html"))
+    return FileResponse(os.path.join(frontend_dir, "index.html"))
 
 
 @app.get("/health")

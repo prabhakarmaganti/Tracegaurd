@@ -11,7 +11,7 @@ from sqlalchemy import (
     Text,
 )
 from sqlalchemy.orm import relationship
-from app.database import Base
+from backend.database import Base
 
 # Many-to-many relationship table between Batches and RawMaterialLots
 batch_material_lots = Table(
@@ -20,6 +20,7 @@ batch_material_lots = Table(
     Column("batch_id", Integer, ForeignKey("batches.id", ondelete="CASCADE"), primary_key=True),
     Column("lot_id", Integer, ForeignKey("raw_material_lots.id", ondelete="RESTRICT"), primary_key=True),
     Column("quantity_used", Float, default=0.0),
+    extend_existing=True,
 )
 
 

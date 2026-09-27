@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app import crud, database
-from app.labels import generate_qr_data_url
+from backend import crud, database
+from backend.labels import generate_qr_data_url
 
 router = APIRouter(prefix="/api/trace", tags=["trace"])
 

@@ -1,7 +1,7 @@
 import json
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app import crud, database, schemas
+from backend import crud, database, schemas
 
 router = APIRouter(prefix="/api/recalls", tags=["recalls"])
 

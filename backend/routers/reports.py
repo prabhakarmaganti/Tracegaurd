@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
-from app import crud, database, reports
+from backend import crud, database, reports
 
 router = APIRouter(prefix="/api/reports", tags=["reports"])
 

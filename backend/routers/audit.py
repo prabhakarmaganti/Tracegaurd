@@ -1,7 +1,7 @@
 import json
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
-from app import crud, database
+from backend import crud, database
 
 router = APIRouter(prefix="/api/audit-logs", tags=["audit"])
 

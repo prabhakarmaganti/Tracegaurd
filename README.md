@@ -71,6 +71,33 @@ docker compose logs -f
 
 The database file is persisted to the host filesystem at `./data/traceguard.db`.
 
+### Option C: Vercel Serverless Deployment
+
+TraceGuard is configured for zero-friction deployment on [Vercel](https://vercel.com):
+
+1. **Deploy via Vercel CLI**:
+   ```bash
+   # Install Vercel CLI if needed
+   npm install -g vercel
+
+   # Deploy directly from your workspace
+   vercel
+   ```
+
+2. **Deploy via Git**:
+   - Push this repository to GitHub, GitLab, or Bitbucket.
+   - Import the repository in your [Vercel Dashboard](https://vercel.com/new).
+   - Vercel automatically detects the Python runtime configuration and `vercel.json`.
+   - Click **Deploy**.
+
+#### Environment Variables (Optional)
+| Variable | Default | Purpose |
+|---|---|---|
+| `DATABASE_URL` | None (uses SQLite) | Connection string for persistent PostgreSQL / Supabase / Neon database. |
+| `TRACEGUARD_DB_PATH` | `/tmp/traceguard.db` (on Vercel) | Custom SQLite file location if desired. |
+
+> **Note on Storage**: On Vercel serverless functions, SQLite runs out of `/tmp/traceguard.db` with automatic database table creation and initial seed data. For production persistence across all global serverless edge regions, configure an external `DATABASE_URL` (e.g., Neon Postgres or Supabase).
+
 ---
 
 ## 4. API Specification

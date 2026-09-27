@@ -3,8 +3,8 @@ import json
 from typing import Any, Dict, List, Optional
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
-from app import models, schemas
-from app.labels import generate_batch_code
+from backend import models, schemas
+from backend.labels import generate_batch_code
 
 
 def log_audit(

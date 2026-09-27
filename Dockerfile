@@ -12,11 +12,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Ensure data directory exists
-RUN mkdir -p /app/data
+# Ensure db directory exists
+RUN mkdir -p /app/db
 
 EXPOSE 8000
 
-ENV TRACEGUARD_DB_PATH=/app/data/traceguard.db
+ENV TRACEGUARD_DB_PATH=/app/db/traceguard.db
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
