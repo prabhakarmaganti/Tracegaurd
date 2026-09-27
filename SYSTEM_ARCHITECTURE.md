@@ -2,7 +2,7 @@
 
 ## 1. High-Level System Architecture
 
-TraceGuard is structured as a modular client-server web application deployed on local manufacturing plant infrastructure. It eliminates third-party cloud dependencies and dedicated IoT hardware, collecting verified data through client browser workstations and USB keyboard-wedge barcode readers.
+TraceGuard is structured as a modular client-server web application deployed on local manufacturing plant infrastructure. It eliminates third-party cloud dependencies and dedicated IoT hardware, collecting verified data through client browser workstations and USB keyboard-wedge barcode readers.,,,
 
 ```mermaid
 flowchart TD
