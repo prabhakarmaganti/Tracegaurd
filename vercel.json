@@ -4,7 +4,7 @@
   "functions": {
     "api/index.py": {
       "maxDuration": 30,
-      "includeFiles": "{backend/**,frontend/**,data/**,db/**}"
+      "includeFiles": "{backend/**,frontend/**,db/**}"
     }
   },
   "rewrites": [
@@ -13,7 +13,15 @@
       "destination": "/frontend/:path*"
     },
     {
-      "source": "/api/:path*",
+      "source": "/frontend/:path*",
+      "destination": "/frontend/:path*"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/api",
       "destination": "/api/index.py"
     },
     {
@@ -30,6 +38,10 @@
     },
     {
       "source": "/health",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/favicon.ico",
       "destination": "/api/index.py"
     },
     {

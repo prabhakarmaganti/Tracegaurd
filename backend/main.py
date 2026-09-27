@@ -84,5 +84,13 @@ def serve_index():
 
 
 @app.get("/health")
+@app.get("/api/health")
+@app.get("/api/index.py")
 def health_check():
     return {"status": "ok", "app": "TraceGuard", "version": "1.0.0"}
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    from fastapi import Response
+    return Response(status_code=204)
