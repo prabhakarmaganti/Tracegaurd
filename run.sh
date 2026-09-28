@@ -13,5 +13,5 @@ fi
 echo "Seeding initial database if needed..."
 ./venv/bin/python -m backend.seed_data
 
-echo "Starting TraceGuard on http://localhost:8000..."
+echo "Star TraceGuard on http://localhost:8000..."
 exec ./venv/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
