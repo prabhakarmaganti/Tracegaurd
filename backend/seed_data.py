@@ -13,7 +13,7 @@ def seed_database(db: Session = None):
     if db.query(models.Machine).first():
         return
 
-    print("Seeding TraceGuard database with realistic manufacturing data...")
+    print("Seeding Production & Defect Tracking database with realistic manufacturing data...")
 
     # 1. Shifts
     shift_a = models.Shift(name="Shift A", start_time="06:00", end_time="14:00")
@@ -292,7 +292,7 @@ def seed_database(db: Session = None):
         action="SYSTEM_INIT",
         actor="System Admin",
         timestamp=now - datetime.timedelta(days=30),
-        diff_json='{"status": "Initialized Plant 1 TraceGuard Master Configuration"}',
+        diff_json='{"status": "Initialized Plant 1 Production & Defect Tracking Master Configuration"}',
     )
     db.commit()
 

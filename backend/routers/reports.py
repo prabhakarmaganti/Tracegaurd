@@ -22,12 +22,12 @@ def export_batch_report(
         return StreamingResponse(
             pdf_stream,
             media_type="application/pdf",
-            headers={"Content-Disposition": f"attachment; filename=TraceGuard_Report_{code}.pdf"},
+            headers={"Content-Disposition": f"attachment; filename=Production_Defect_Tracking_Report_{code}.pdf"},
         )
     else:
         csv_str = reports.generate_batch_csv_report(trace_data)
         return Response(
             content=csv_str,
             media_type="text/csv",
-            headers={"Content-Disposition": f"attachment; filename=TraceGuard_Report_{code}.csv"},
+            headers={"Content-Disposition": f"attachment; filename=Production_Defect_Tracking_Report_{code}.csv"},
         )

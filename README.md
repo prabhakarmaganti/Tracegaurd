@@ -1,8 +1,8 @@
-# TraceGuard
+# Production & Defect Tracking
 
 ## Manufacturing Traceability and Recall Containment System
 
-TraceGuard is a software-based manufacturing execution and traceability system designed for industrial manufacturing environments. It bridges the gap between raw-material receiving, shop-floor production, quality assurance, and compliance auditing without introducing external cloud infrastructure, internet dependencies, or proprietary IoT sensor hardware.
+Production & Defect Tracking is a software-based manufacturing execution and traceability system designed for industrial manufacturing environments. It bridges the gap between raw-material receiving, shop-floor production, quality assurance, and compliance auditing without introducing external cloud infrastructure, internet dependencies, or proprietary IoT sensor hardware.
 
 The user interface implements the dark precision manufacturing design specified in the project requirements and visual reference (`Pasted image.png`).
 
@@ -10,7 +10,7 @@ The user interface implements the dark precision manufacturing design specified 
 
 ## 1. System Overview
 
-In conventional manufacturing settings lacking lot-level linkage, a single defect complaint frequently forces a blanket recall spanning months of production. TraceGuard mitigates this by enforcing data capture at each manufacturing transition:
+In conventional manufacturing settings lacking lot-level linkage, a single defect complaint frequently forces a blanket recall spanning months of production. Production & Defect Tracking mitigates this by enforcing data capture at each manufacturing transition:
 
 - **Complete Chain of Custody**: Binds each finished unit and production batch to its work center (machine), operator, shift, time window, and supplier raw-material lots.
 - **Traceability by Construction**: The data schema and validation rules prevent a batch from closing until all required parameters (machine, operator, shift, product, and consumed lots) are verified.
@@ -73,7 +73,7 @@ The database file is persisted to the host filesystem at `./data/traceguard.db`.
 
 ### Option C: Vercel Serverless Deployment
 
-TraceGuard is configured for zero-friction deployment on [Vercel](https://vercel.com):
+Production & Defect Tracking is configured for zero-friction deployment on [Vercel](https://vercel.com):
 
 1. **Deploy via Vercel CLI**:
    ```bash

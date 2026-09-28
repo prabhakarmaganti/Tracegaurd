@@ -38,7 +38,7 @@ def generate_batch_pdf_report(trace_data: Dict[str, Any]) -> io.BytesIO:
         textColor=colors.HexColor("#475569"),
     )
 
-    story.append(Paragraph("TraceGuard &mdash; Batch Chain of Custody Audit Report", title_style))
+    story.append(Paragraph("Production &amp; Defect Tracking &mdash; Batch Chain of Custody Audit Report", title_style))
     story.append(
         Paragraph(
             f"Generated on {trace_data.get('time_window', {}).get('start', 'Today')} &bull; "
@@ -179,7 +179,7 @@ def generate_batch_pdf_report(trace_data: Dict[str, Any]) -> io.BytesIO:
     story.append(Spacer(1, 24))
     story.append(
         Paragraph(
-            "<b>Audit Certification:</b> This document was generated automatically by TraceGuard system immutable records. "
+            "<b>Audit Certification:</b> This document was generated automatically by Production & Defect Tracking system immutable records. "
             "All operator inputs, timestamps, and lot links are cryptographically verified and tamper-evident.",
             sub_style,
         )
@@ -194,7 +194,7 @@ def generate_batch_csv_report(trace_data: Dict[str, Any]) -> str:
     output = io.StringIO()
     writer = csv.writer(output)
 
-    writer.writerow(["TraceGuard Compliance Chain of Custody Report"])
+    writer.writerow(["Production & Defect Tracking Compliance Chain of Custody Report"])
     writer.writerow([])
     writer.writerow(["Batch Code", trace_data.get("batch_code", "")])
     writer.writerow(["Product SKU", (trace_data.get("product") or {}).get("sku", "")])

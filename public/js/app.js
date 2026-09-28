@@ -1,4 +1,4 @@
-// TraceGuard Frontend Core Application Controller
+// Production & Defect Tracking Frontend Core Application Controller
 const ROLES = {
   Manager: {
     role: "Manager",
@@ -107,7 +107,7 @@ const App = {
   },
 
   checkAuth() {
-    const saved = localStorage.getItem("traceguard_user");
+    const saved = localStorage.getItem("production_defect_tracking_user") || localStorage.getItem("traceguard_user");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -160,7 +160,7 @@ const App = {
     this.state.currentUser = roleInfo;
 
     localStorage.setItem(
-      "traceguard_user",
+      "production_defect_tracking_user",
       JSON.stringify({
         role: roleKey,
         name: roleInfo.name,
@@ -201,6 +201,7 @@ const App = {
   },
 
   logout() {
+    localStorage.removeItem("production_defect_tracking_user");
     localStorage.removeItem("traceguard_user");
     this.state.isAuthenticated = false;
     this.state.currentUser = null;

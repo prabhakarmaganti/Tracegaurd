@@ -16,7 +16,7 @@ if raw_db_url:
 else:
     is_serverless = bool(os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"))
     default_sqlite_path = "/tmp/traceguard.db" if is_serverless else "db/traceguard.db"
-    DB_PATH = os.environ.get("TRACEGUARD_DB_PATH", default_sqlite_path)
+    DB_PATH = os.environ.get("PRODUCTION_DEFECT_TRACKING_DB_PATH") or os.environ.get("TRACEGUARD_DB_PATH", default_sqlite_path)
 
     # In serverless environments, if using /tmp and file does not exist, copy existing pre-seeded db if available
     if is_serverless and DB_PATH.startswith("/tmp") and not os.path.exists(DB_PATH):

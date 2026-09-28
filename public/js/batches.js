@@ -210,7 +210,7 @@ const BatchesModule = {
         <div id="printable-label-area" class="printable-label">
           <img src="${data.qr_data_url}" class="label-qr-img" alt="Batch QR Code" />
           <div class="label-info">
-            <div class="label-brand">TraceGuard Traceability Label</div>
+            <div class="label-brand">Production &amp; Defect Tracking Label</div>
             <div class="label-code">${data.batch_code}</div>
             <div class="label-meta"><b>Product:</b> ${data.product_sku} (${data.product_name})</div>
             <div class="label-meta"><b>Machine:</b> ${data.machine_code} &bull; <b>Shift:</b> ${data.shift_name}</div>

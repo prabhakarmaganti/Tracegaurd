@@ -1,7 +1,7 @@
 [project]
-name = "traceguard"
+name = "production-defect-tracking"
 version = "1.0.0"
-description = "TraceGuard - Manufacturing Traceability & Recall Containment System"
+description = "Production & Defect Tracking - Manufacturing Traceability & Recall Containment System"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [

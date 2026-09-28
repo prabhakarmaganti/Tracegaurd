@@ -84,7 +84,7 @@ const RecallsModule = {
       <div style="background:#12191c;border:1px solid var(--border-subtle);border-radius:8px;padding:20px;margin-bottom:20px;">
         <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:16px;margin-bottom:20px;">
           <div>
-            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">TraceGuard Targeted Recall</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Production &amp; Defect Tracking Targeted Recall</div>
             <div style="font-size:28px;font-weight:700;color:#f87171;">${data.total_units_at_risk} <span style="font-size:14px;color:var(--text-muted);font-weight:400;">units at risk</span></div>
             <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Across ${data.total_affected_batches} candidate batches</div>
           </div>

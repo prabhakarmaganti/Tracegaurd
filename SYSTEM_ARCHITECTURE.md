@@ -1,4 +1,4 @@
-# TraceGuard System Architecture & Operational Workflows
+# Production & Defect Tracking System Architecture & Operational Workflows
 
 ## 1. High-Level System Architecture
 

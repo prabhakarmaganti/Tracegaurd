@@ -112,7 +112,7 @@ const MaterialsModule = {
         <div id="printable-label-area" class="printable-label">
           <img src="${data.qr_data_url}" class="label-qr-img" alt="Material Lot QR Code" />
           <div class="label-info">
-            <div class="label-brand">TraceGuard Raw Material Bin Tag</div>
+            <div class="label-brand">Production &amp; Defect Tracking Bin Tag</div>
             <div class="label-code">${data.lot_code}</div>
             <div class="label-meta"><b>Material:</b> ${data.material_name}</div>
             <div class="label-meta"><b>Supplier:</b> ${data.supplier_name}</div>

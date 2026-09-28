@@ -22,7 +22,7 @@ from backend.seed_data import seed_database
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="TraceGuard",
+    title="Production & Defect Tracking",
     description="Manufacturing Traceability & Recall Containment System",
     version="1.0.0",
 )
@@ -91,7 +91,7 @@ def serve_index():
 @app.get("/api/health")
 @app.get("/api/index.py")
 def health_check():
-    return {"status": "ok", "app": "TraceGuard", "version": "1.0.0"}
+    return {"status": "ok", "app": "Production & Defect Tracking", "version": "1.0.0"}
 
 
 @app.get("/favicon.ico", include_in_schema=False)
