@@ -14,145 +14,658 @@
 </head>
 <body>
 
-  <!-- App Header Matching Pasted Image -->
-  <header class="top-header">
-    <div class="header-left">
-      <button class="plant-select-btn" title="Switch Production Facility">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-        </svg>
-        <span>TraceGuard &mdash; Sample Dashboard</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
+  <!-- FULL PAGE INDUSTRIAL LOGIN & ROLE SELECTOR -->
+  <div id="login-screen" class="login-wrapper">
+    <div class="login-header">
+      <div class="login-terminal-badge">
+        <span class="login-pulse-dot"></span>
+        <span>Plant 1 Houston &bull; Operations &amp; Traceability Terminal</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;">
+        <span class="brand-dot" style="width:12px;height:12px;"></span>
+        <h1 class="login-title">TraceGuard Operations Kiosk</h1>
+      </div>
+      <p class="login-subtitle">
+        Select your authorized role to access your dedicated station dashboard, chain-of-custody tools, and floor controls.
+      </p>
+    </div>
+
+    <!-- 5 Role Selector Tiles -->
+    <div class="role-cards-grid">
+      <!-- Role 1: Manager -->
+      <div class="role-card selected" id="role-card-Manager" onclick="App.selectRoleCard('Manager')">
+        <div>
+          <div class="role-card-top">
+            <span class="role-tag manager">Manager</span>
+            <span class="role-card-icon">📊</span>
+          </div>
+          <h3 class="role-card-title">Plant / Quality Manager</h3>
+          <div class="role-card-persona">Elena Vance (MGR-01)</div>
+          <p class="role-card-desc">Defect trend analytics, recall containment boundary calculations, ISO 9001 / FDA compliance exports.</p>
+        </div>
+        <button type="button" class="role-card-btn" onclick="event.stopPropagation(); App.login('Manager');">
+          Launch Manager Station &rarr;
+        </button>
+      </div>
+
+      <!-- Role 2: QA Inspector -->
+      <div class="role-card" id="role-card-QA" onclick="App.selectRoleCard('QA')">
+        <div>
+          <div class="role-card-top">
+            <span class="role-tag qa">QA Inspector</span>
+            <span class="role-card-icon">🔬</span>
+          </div>
+          <h3 class="role-card-title">QA Inspector</h3>
+          <div class="role-card-persona">T. Higgins (QA-882)</div>
+          <p class="role-card-desc">Rapid chain-of-custody trace scanner, defect logging with auto-trace, quarantine containment holds.</p>
+        </div>
+        <button type="button" class="role-card-btn" onclick="event.stopPropagation(); App.login('QA');">
+          Launch QA Station &rarr;
+        </button>
+      </div>
+
+      <!-- Role 3: Machine Operator -->
+      <div class="role-card" id="role-card-Operator" onclick="App.selectRoleCard('Operator')">
+        <div>
+          <div class="role-card-top">
+            <span class="role-tag operator">Operator</span>
+            <span class="role-card-icon">⚙️</span>
+          </div>
+          <h3 class="role-card-title">Machine Operator</h3>
+          <div class="role-card-persona">J. Alvarez (OP-4412)</div>
+          <p class="role-card-desc">Production run start/closeout, floor label printing, shift batch logging, tooling inspection.</p>
+        </div>
+        <button type="button" class="role-card-btn" onclick="event.stopPropagation(); App.login('Operator');">
+          Launch Operator Station &rarr;
+        </button>
+      </div>
+
+      <!-- Role 4: Receiving Clerk -->
+      <div class="role-card" id="role-card-Receiving" onclick="App.selectRoleCard('Receiving')">
+        <div>
+          <div class="role-card-top">
+            <span class="role-tag receiving">Receiving</span>
+            <span class="role-card-icon">📦</span>
+          </div>
+          <h3 class="role-card-title">Receiving Clerk</h3>
+          <div class="role-card-persona">Marcus Chen (REC-104)</div>
+          <p class="role-card-desc">Raw material dock intake, supplier lot verification, QR bin &amp; pallet tag printing, vendor ledger.</p>
+        </div>
+        <button type="button" class="role-card-btn" onclick="event.stopPropagation(); App.login('Receiving');">
+          Launch Receiving Station &rarr;
+        </button>
+      </div>
+
+      <!-- Role 5: System Admin -->
+      <div class="role-card" id="role-card-Admin" onclick="App.selectRoleCard('Admin')">
+        <div>
+          <div class="role-card-top">
+            <span class="role-tag admin">Admin</span>
+            <span class="role-card-icon">🛡️</span>
+          </div>
+          <h3 class="role-card-title">System Administrator</h3>
+          <div class="role-card-persona">Sarah Connor (SYS-001)</div>
+          <p class="role-card-desc">Master data governance (machines, tooling, shifts, SKUs, suppliers), immutable audit trail log.</p>
+        </div>
+        <button type="button" class="role-card-btn" onclick="event.stopPropagation(); App.login('Admin');">
+          Launch Admin Station &rarr;
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Selected Persona Authenticator Bar -->
+    <div class="login-auth-box">
+      <div class="login-auth-info">
+        <span class="login-auth-label">Selected Station Persona</span>
+        <div class="login-auth-target">
+          <span id="selected-role-name">Elena Vance</span> &mdash; <span id="selected-role-title" style="color:var(--text-main);">Plant / Quality Manager</span>
+        </div>
+      </div>
+
+      <button type="button" class="login-btn-launch" onclick="App.loginSelectedRole()">
+        <span>Enter Station Terminal</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </button>
-
-      <a href="#" class="brand" onclick="App.switchTab('dashboard')">
-        <span class="brand-dot"></span>
-        <span class="brand-name">TraceGuard</span>
-      </a>
     </div>
 
-    <nav class="nav-links">
-      <a class="nav-link active" data-tab="dashboard">Dashboard</a>
-      <a class="nav-link" data-tab="trace">Trace Lookup</a>
-      <a class="nav-link" data-tab="defects">Defects</a>
-      <a class="nav-link" data-tab="batches">Batches</a>
-      <a class="nav-link" data-tab="recalls">Recalls</a>
-      <a class="nav-link" data-tab="materials">Material Intake</a>
-      <a class="nav-link" data-tab="reports">Reports</a>
-      <a class="nav-link" data-tab="master-data">Master Data</a>
-    </nav>
-
-    <div class="header-right">
-      <div class="role-badge">
-        <span>Role:</span>
-        <select id="role-selector" class="role-select">
-          <option value="Manager">Quality Manager</option>
-          <option value="QA">QA Inspector</option>
-          <option value="Operator">Machine Operator</option>
-          <option value="Receiving">Receiving Clerk</option>
-          <option value="Admin">System Admin</option>
-        </select>
-      </div>
-      <button class="btn-primary" style="font-size:12px;padding:6px 12px;" onclick="BatchesModule.openStartModal()">+ Start Batch</button>
+    <div class="login-footer-hint">
+      Industrial Floor Kiosk &bull; Click any persona card or button to enter your role dashboard
     </div>
-  </header>
+  </div>
 
-  <!-- Main Work Area -->
-  <main class="main-container">
+  <!-- AUTHENTICATED APPLICATION INTERFACE -->
+  <div id="authenticated-app" style="display:none;min-height:100vh;flex-direction:column;">
+    <header class="top-header">
+      <div class="header-left">
+        <button class="plant-select-btn" title="Switch Production Facility">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+          <span id="header-plant-title">Plant 1 Houston &bull; Operational</span>
+        </button>
 
-    <!-- TAB 1: DASHBOARD (Matches Pasted image.png) -->
-    <section id="tab-dashboard" class="tab-pane">
-      <div class="page-header">
-        <h1 class="page-title">Plant 1 Dashboard</h1>
-        <div class="page-subtitle">
-          <span>Sunday, Sep 27 2026</span>
-          <span class="dot-separator">&bull;</span>
-          <span>Shift B in progress</span>
-          <span class="dot-separator">&bull;</span>
-          <span>Sample data for design reference</span>
-        </div>
+        <a href="#" class="brand" onclick="event.preventDefault(); App.switchTab(App.getRoleDashboardTab());">
+          <span class="brand-dot"></span>
+          <span class="brand-name">TraceGuard</span>
+        </a>
       </div>
 
-      <!-- 4 Top KPI Cards -->
-      <div class="kpi-grid">
-        <div class="kpi-card" onclick="App.switchTab('batches')" style="cursor:pointer;" title="Target: 100% complete chain of custody">
-          <div class="kpi-label">Traceability Completeness</div>
-          <div class="kpi-value teal" id="kpi-completeness">99.6%</div>
-          <div class="kpi-subtext" id="kpi-completeness-sub">2 of 512 batches missing a field</div>
-        </div>
+      <nav class="nav-links" id="main-nav-links">
+        <!-- Rendered dynamically based on active role -->
+      </nav>
 
-        <div class="kpi-card" onclick="App.switchTab('defects')" style="cursor:pointer;" title="View all unresolved quality complaints">
-          <div class="kpi-label">Open Defects</div>
-          <div class="kpi-value amber" id="kpi-open-defects">12</div>
-          <div class="kpi-subtext" id="kpi-open-defects-sub">3 high severity, unresolved</div>
-        </div>
-
-        <div class="kpi-card" onclick="App.switchTab('recalls')" style="cursor:pointer;" title="Good inventory saved vs blanket date-range recall">
-          <div class="kpi-label">Avg. Recall Scope Reduction</div>
-          <div class="kpi-value teal" id="kpi-recall-reduction">87%</div>
-          <div class="kpi-subtext" id="kpi-recall-reduction-sub">vs. naive date-range recall</div>
-        </div>
-
-        <div class="kpi-card" onclick="App.switchTab('batches')" style="cursor:pointer;" title="Production runs started/closed today">
-          <div class="kpi-label">Batches Logged Today</div>
-          <div class="kpi-value white" id="kpi-batches-today">42</div>
-          <div class="kpi-subtext" id="kpi-batches-today-sub">across 9 active machines</div>
-        </div>
-      </div>
-
-      <!-- 2 Defect Trend Horizontal Bar Charts -->
-      <div class="charts-grid">
-        <div class="card">
-          <div class="card-title">Defect rate by machine &mdash; last 30 days</div>
-          <div class="bar-chart" id="chart-machine-defects">
-            <!-- Rendered dynamically with M04 highlighted coral -->
+      <div class="header-right">
+        <!-- Active User Profile Chip -->
+        <div class="user-chip" id="header-user-chip">
+          <div class="user-chip-avatar" id="header-user-avatar">EV</div>
+          <div class="user-chip-details">
+            <span class="user-chip-name" id="header-user-name">Elena Vance</span>
+            <span class="user-chip-role" id="header-user-role">Manager</span>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-title">Defect rate by material lot</div>
-          <div class="bar-chart" id="chart-lot-defects">
-            <!-- Rendered dynamically with SL-2291 highlighted coral -->
-          </div>
-        </div>
+        <!-- Switch Role / Sign Out Button -->
+        <button class="btn-signout" onclick="App.logout()" title="Sign out and return to role selection">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Sign Out</span>
+        </button>
+
+        <!-- Role Action Button -->
+        <button id="header-role-action-btn" class="btn-primary" style="font-size:12px;padding:6px 12px;"></button>
       </div>
+    </header>
 
-      <!-- Recent Defects Card with Quick Trace Box -->
-      <div class="card">
-        <div class="table-card-header">
-          <div class="card-title" style="margin-bottom:0;">Recent defects</div>
+    <!-- Main Work Area -->
+    <main class="main-container">
 
-          <form class="quick-trace-box" onsubmit="DashboardModule.handleQuickTrace(event)">
-            <div class="input-with-icon">
-              <span class="input-icon-prefix">#</span>
-              <input type="text" id="quick-trace-input" class="input-dark" value="P1-WGT-260927-M04-0032" placeholder="Batch or unit serial..." />
+      <!-- ========================================== -->
+      <!-- ROLE DASHBOARD 1: QUALITY / PLANT MANAGER -->
+      <!-- ========================================== -->
+      <section id="tab-dashboard-manager" class="tab-pane" style="display:none;">
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h1 class="page-title">Quality &amp; Plant Management Center</h1>
+            <div class="page-subtitle">
+              <span class="role-tag manager">Manager Console</span>
+              <span class="dot-separator">&bull;</span>
+              <span>Elena Vance (MGR-01)</span>
+              <span class="dot-separator">&bull;</span>
+              <span>Plant 1 Houston</span>
+              <span class="dot-separator">&bull;</span>
+              <span>Shift B Active</span>
             </div>
-            <button type="submit" class="btn-primary">Trace</button>
-          </form>
+          </div>
+          <div class="quick-actions-bar" style="margin-bottom:0;">
+            <button class="btn-primary" onclick="App.switchTab('recalls')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              Recall Calculator
+            </button>
+            <button class="btn-secondary" onclick="App.switchTab('reports')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              Export Compliance Audit
+            </button>
+          </div>
         </div>
 
-        <div class="data-table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Batch code</th>
-                <th>Machine</th>
-                <th>Defect type</th>
-                <th>Severity</th>
-                <th>Reported</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="recent-defects-tbody">
-              <!-- Rendered dynamically matching screenshot rows -->
-            </tbody>
-          </table>
+        <!-- 4 Top KPI Cards for Manager -->
+        <div class="kpi-grid">
+          <div class="kpi-card" onclick="App.switchTab('batches')" style="cursor:pointer;" title="Target: 100% complete chain of custody">
+            <div class="kpi-label">Traceability Completeness</div>
+            <div class="kpi-value teal" id="mgr-kpi-completeness">99.6%</div>
+            <div class="kpi-subtext" id="mgr-kpi-completeness-sub">2 of 512 batches missing a field</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('defects')" style="cursor:pointer;" title="View all unresolved quality complaints">
+            <div class="kpi-label">Open Quality Defects</div>
+            <div class="kpi-value amber" id="mgr-kpi-defects">12</div>
+            <div class="kpi-subtext" id="mgr-kpi-defects-sub">3 high severity, unresolved</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('recalls')" style="cursor:pointer;" title="Inventory protected vs blanket date-range recall">
+            <div class="kpi-label">Avg. Recall Scope Reduction</div>
+            <div class="kpi-value teal" id="mgr-kpi-recall-reduction">87%</div>
+            <div class="kpi-subtext">Targeted containment vs blanket recall</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('reports')" style="cursor:pointer;" title="Regulatory readiness (ISO 9001:2015 / FDA 21 CFR Part 820)">
+            <div class="kpi-label">Audit Compliance Status</div>
+            <div class="kpi-value white" style="color:#34d399;">100%</div>
+            <div class="kpi-subtext">ISO 9001 / FDA 21 CFR 820 Validated</div>
+          </div>
         </div>
-      </div>
-    </section>
+
+        <!-- 2 Defect Trend Horizontal Bar Charts -->
+        <div class="charts-grid">
+          <div class="card">
+            <div class="card-title">Defect rate by machine &mdash; last 30 days</div>
+            <div class="bar-chart" id="mgr-chart-machine-defects"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Defect rate by material lot</div>
+            <div class="bar-chart" id="mgr-chart-lot-defects"></div>
+          </div>
+        </div>
+
+        <!-- High Severity Unresolved Defects Table -->
+        <div class="card">
+          <div class="table-card-header">
+            <div class="card-title" style="margin-bottom:0;">High-Priority Defects &amp; Containment Watchlist</div>
+            <button class="btn-secondary" style="font-size:12px;padding:4px 10px;" onclick="App.switchTab('defects')">View All Defects &rarr;</button>
+          </div>
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Batch code</th>
+                  <th>Machine</th>
+                  <th>Defect type</th>
+                  <th>Severity</th>
+                  <th>Reported</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="mgr-recent-defects-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- ROLE DASHBOARD 2: QA INSPECTOR             -->
+      <!-- ========================================== -->
+      <section id="tab-dashboard-qa" class="tab-pane" style="display:none;">
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h1 class="page-title">QA Inspection &amp; Rapid Trace Station</h1>
+            <div class="page-subtitle">
+              <span class="role-tag qa">QA Station</span>
+              <span class="dot-separator">&bull;</span>
+              <span>T. Higgins (QA-882)</span>
+              <span class="dot-separator">&bull;</span>
+              <span>Inspection Bench 1</span>
+              <span class="dot-separator">&bull;</span>
+              <span>Shift B</span>
+            </div>
+          </div>
+          <div class="quick-actions-bar" style="margin-bottom:0;">
+            <button class="btn-primary" style="background:#ef4444;" onclick="App.openModal('report-defect-modal')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              + Log Defect &amp; Auto-Trace
+            </button>
+          </div>
+        </div>
+
+        <!-- QA Fast Trace Lookup Box built right into Dashboard -->
+        <div class="card" style="margin-bottom:20px;border-left:4px solid var(--color-amber);">
+          <div class="card-title">Instant Chain-of-Custody Scanner</div>
+          <form style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;" onsubmit="DashboardModule.handleQATrace(event)">
+            <div style="flex:1;min-width:280px;position:relative;">
+              <input type="text" id="qa-trace-input" class="form-input" style="font-family:var(--font-mono);font-size:15px;padding-left:36px;" placeholder="Scan barcode or enter batch/unit code (e.g. P1-WGT-260927-M04-0032)..." value="P1-WGT-260927-M04-0032" />
+              <svg style="position:absolute;left:12px;top:11px;color:var(--text-muted);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <button type="submit" class="btn-primary">Resolve Trace</button>
+          </form>
+          <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <span style="font-size:12px;color:var(--text-dim);">Fast test scans:</span>
+            <button class="btn-secondary" style="font-size:11px;padding:3px 8px;font-family:var(--font-mono);" onclick="DashboardModule.quickQATrace('P1-WGT-260927-M04-0032')">P1-WGT-260927-M04-0032 (High Sev)</button>
+            <button class="btn-secondary" style="font-size:11px;padding:3px 8px;font-family:var(--font-mono);" onclick="DashboardModule.quickQATrace('P1-WGT-260926-M04-0028')">P1-WGT-260926-M04-0028</button>
+            <button class="btn-secondary" style="font-size:11px;padding:3px 8px;font-family:var(--font-mono);" onclick="DashboardModule.quickQATrace('P1-BRK-260925-M02-0011')">P1-BRK-260925-M02-0011</button>
+          </div>
+        </div>
+
+        <!-- 4 Top KPI Cards for QA -->
+        <div class="kpi-grid">
+          <div class="kpi-card" onclick="App.switchTab('defects')" style="cursor:pointer;">
+            <div class="kpi-label">Active Quality Investigations</div>
+            <div class="kpi-value amber" id="qa-kpi-open-defects">12</div>
+            <div class="kpi-subtext">3 flagged High Severity</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('recalls')" style="cursor:pointer;">
+            <div class="kpi-label">Quarantine Hold Batches</div>
+            <div class="kpi-value" style="color:var(--color-coral);" id="qa-kpi-quarantine">4</div>
+            <div class="kpi-subtext">Awaiting containment review</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Equipment Anomaly Hotspot</div>
+            <div class="kpi-value" style="color:#f87171;">M04</div>
+            <div class="kpi-subtext">8 defects in last 30 days</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Implicated Material Lot</div>
+            <div class="kpi-value" style="color:#f87171;">SL-2291</div>
+            <div class="kpi-subtext">7 defects linked (Apex Steel)</div>
+          </div>
+        </div>
+
+        <!-- QA Defect Triage & Quarantine Queue Table -->
+        <div class="card">
+          <div class="table-card-header">
+            <div class="card-title" style="margin-bottom:0;">QA Defect Triage &amp; Quarantine Ledger</div>
+            <button class="btn-secondary" style="font-size:12px;padding:4px 10px;" onclick="App.switchTab('defects')">Full Defect Manager &rarr;</button>
+          </div>
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Defect ID</th>
+                  <th>Batch Code</th>
+                  <th>Machine</th>
+                  <th>Defect Description</th>
+                  <th>Severity</th>
+                  <th>Reported At</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="qa-defects-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- ROLE DASHBOARD 3: MACHINE OPERATOR         -->
+      <!-- ========================================== -->
+      <section id="tab-dashboard-operator" class="tab-pane" style="display:none;">
+        <!-- Operator Station Banner -->
+        <div class="station-banner">
+          <div class="station-banner-items">
+            <div class="station-banner-item">
+              <span class="station-banner-label">Active Station</span>
+              <span class="station-banner-value">Station M04 &mdash; Stamping Press</span>
+            </div>
+            <div class="station-banner-item">
+              <span class="station-banner-label">Assigned Operator</span>
+              <span class="station-banner-value">J. Alvarez (OP-4412)</span>
+            </div>
+            <div class="station-banner-item">
+              <span class="station-banner-label">Active Shift</span>
+              <span class="station-banner-value">Shift B (15:00 &ndash; 23:00)</span>
+            </div>
+            <div class="station-banner-item">
+              <span class="station-banner-label">Station Status</span>
+              <span class="station-banner-value" style="color:#34d399;">&bull; In Production Run</span>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;">
+            <button class="btn-primary" onclick="BatchesModule.openStartModal()">+ Start New Run</button>
+          </div>
+        </div>
+
+        <!-- 4 Top KPI Cards for Operator -->
+        <div class="kpi-grid">
+          <div class="kpi-card" onclick="App.switchTab('batches')" style="cursor:pointer;">
+            <div class="kpi-label">Active Batch In Progress</div>
+            <div class="kpi-value teal" style="font-size:20px;font-family:var(--font-mono);margin-top:6px;" id="op-kpi-active-batch">P1-WGT-260927-M04-0032</div>
+            <div class="kpi-subtext">Started Today, Shift B</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('batches')" style="cursor:pointer;">
+            <div class="kpi-label">Plant Batches Today</div>
+            <div class="kpi-value white" id="op-kpi-batches-today">42</div>
+            <div class="kpi-subtext">Across 9 active lines</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Raw Material Loaded</div>
+            <div class="kpi-value teal" style="font-size:22px;font-family:var(--font-mono);margin-top:6px;">SL-2291</div>
+            <div class="kpi-subtext">Steel Strip Grade 316L (4,660 kg rem)</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Run Integrity Check</div>
+            <div class="kpi-value white" style="color:#34d399;">100%</div>
+            <div class="kpi-subtext">All 4 custody fields stamped</div>
+          </div>
+        </div>
+
+        <!-- Live Floor Batches on this line -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="table-card-header">
+            <div class="card-title" style="margin-bottom:0;">Live Floor Production Batches &mdash; Shift B</div>
+            <button class="btn-primary" style="font-size:12px;padding:4px 10px;" onclick="BatchesModule.openStartModal()">+ New Batch Run</button>
+          </div>
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Batch Code</th>
+                  <th>Product / SKU</th>
+                  <th>Machine</th>
+                  <th>Operator</th>
+                  <th>Quantity</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="op-batches-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Qualified Materials for this Station -->
+        <div class="card">
+          <div class="table-card-header">
+            <div class="card-title" style="margin-bottom:0;">Qualified Raw Material Lots Available at Station M04</div>
+            <span style="font-size:12px;color:var(--text-muted);">Verified against Bill of Materials</span>
+          </div>
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Lot Code</th>
+                  <th>Material Name</th>
+                  <th>Supplier</th>
+                  <th>Available Qty</th>
+                  <th>Tag Verification</th>
+                </tr>
+              </thead>
+              <tbody id="op-materials-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- ROLE DASHBOARD 4: RECEIVING CLERK          -->
+      <!-- ========================================== -->
+      <section id="tab-dashboard-receiving" class="tab-pane" style="display:none;">
+        <!-- Receiving Dock Station Banner -->
+        <div class="station-banner" style="border-left-color: #38bdf8;">
+          <div class="station-banner-items">
+            <div class="station-banner-item">
+              <span class="station-banner-label">Receiving Terminal</span>
+              <span class="station-banner-value">Inbound Dock &mdash; Bay 3 North</span>
+            </div>
+            <div class="station-banner-item">
+              <span class="station-banner-label">Receiving Officer</span>
+              <span class="station-banner-value">Marcus Chen (REC-104)</span>
+            </div>
+            <div class="station-banner-item">
+              <span class="station-banner-label">Dock Shift</span>
+              <span class="station-banner-value">Shift A &amp; B Inbound</span>
+            </div>
+            <div class="station-banner-item">
+              <span class="station-banner-label">Intake Scanner</span>
+              <span class="station-banner-value" style="color:#38bdf8;">&bull; USB Barcode Ready</span>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;">
+            <button class="btn-primary" style="background:#0284c7;" onclick="MaterialsModule.openIntakeModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              + Log Incoming Material
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Top KPI Cards for Receiving -->
+        <div class="kpi-grid">
+          <div class="kpi-card" onclick="App.switchTab('materials')" style="cursor:pointer;">
+            <div class="kpi-label">Active Raw Material Lots</div>
+            <div class="kpi-value teal" id="rec-kpi-active-lots">8</div>
+            <div class="kpi-subtext">In plant warehouse inventory</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('materials')" style="cursor:pointer;">
+            <div class="kpi-label">Approved Suppliers</div>
+            <div class="kpi-value white" id="rec-kpi-suppliers">4</div>
+            <div class="kpi-subtext">Active vendor certifications</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('materials')" style="cursor:pointer;">
+            <div class="kpi-label">Deliveries Logged Today</div>
+            <div class="kpi-value white" id="rec-kpi-today-deliveries">3</div>
+            <div class="kpi-subtext">PO dock receipts verified</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Barcode Tagging Rate</div>
+            <div class="kpi-value white" style="color:#34d399;">100%</div>
+            <div class="kpi-subtext">All bins serialized &amp; QR tagged</div>
+          </div>
+        </div>
+
+        <!-- Raw Material Inventory & QR Pallet Label Station -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="table-card-header">
+            <div class="card-title" style="margin-bottom:0;">Raw Material Inventory &amp; Pallet Tag Station</div>
+            <button class="btn-primary" style="font-size:12px;padding:4px 10px;background:#0284c7;" onclick="MaterialsModule.openIntakeModal()">+ Inbound Intake</button>
+          </div>
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Lot Code</th>
+                  <th>Material Name</th>
+                  <th>Supplier</th>
+                  <th>Received Date</th>
+                  <th>Remaining Qty</th>
+                  <th>Depletion</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="rec-materials-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Approved Suppliers Directory -->
+        <div class="card">
+          <div class="card-title">Approved Supplier Registry &amp; Contact Directory</div>
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Supplier Name</th>
+                  <th>Code</th>
+                  <th>Contact Email</th>
+                  <th>Active Lots Supplied</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="rec-suppliers-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- ROLE DASHBOARD 5: SYSTEM ADMINISTRATOR     -->
+      <!-- ========================================== -->
+      <section id="tab-dashboard-admin" class="tab-pane" style="display:none;">
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h1 class="page-title">System Administration &amp; Audit Console</h1>
+            <div class="page-subtitle">
+              <span class="role-tag admin">System Admin</span>
+              <span class="dot-separator">&bull;</span>
+              <span>Sarah Connor (SYS-001)</span>
+              <span class="dot-separator">&bull;</span>
+              <span>Master Data Governance &amp; Immutable Audit Trail</span>
+            </div>
+          </div>
+          <div class="quick-actions-bar" style="margin-bottom:0;">
+            <button class="btn-primary" onclick="App.switchTab('master-data')">
+              Manage Master Data
+            </button>
+            <button class="btn-secondary" onclick="App.switchTab('reports')">
+              Full Audit Log
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Top KPI Cards for Admin -->
+        <div class="kpi-grid">
+          <div class="kpi-card" onclick="App.switchTab('master-data')" style="cursor:pointer;">
+            <div class="kpi-label">Production Machines</div>
+            <div class="kpi-value teal" id="admin-kpi-machines">9</div>
+            <div class="kpi-subtext">Active floor stations configured</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('master-data')" style="cursor:pointer;">
+            <div class="kpi-label">Certified Operators</div>
+            <div class="kpi-value white" id="admin-kpi-operators">14</div>
+            <div class="kpi-subtext">Qualified for production runs</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('master-data')" style="cursor:pointer;">
+            <div class="kpi-label">Configured Products / SKUs</div>
+            <div class="kpi-value white" id="admin-kpi-products">8</div>
+            <div class="kpi-subtext">Active part numbers</div>
+          </div>
+
+          <div class="kpi-card" onclick="App.switchTab('reports')" style="cursor:pointer;">
+            <div class="kpi-label">Immutable Audit Trail</div>
+            <div class="kpi-value white" style="color:#c084fc;" id="admin-kpi-audit-count">24</div>
+            <div class="kpi-subtext">Append-only records logged</div>
+          </div>
+        </div>
+
+        <!-- Master Data Quick Navigation Bar -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-title">Master Data Configuration Portals</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn-secondary" onclick="App.switchMasterSubTab('machines')">Machines &amp; Tooling</button>
+            <button class="btn-secondary" onclick="App.switchMasterSubTab('operators')">Operators &amp; Certifications</button>
+            <button class="btn-secondary" onclick="App.switchMasterSubTab('shifts')">Production Shifts</button>
+            <button class="btn-secondary" onclick="App.switchMasterSubTab('products')">Product SKUs</button>
+            <button class="btn-secondary" onclick="App.switchMasterSubTab('suppliers')">Suppliers &amp; Vendors</button>
+          </div>
+        </div>
+
+        <!-- Live Immutable Audit Stream Table -->
+        <div class="card">
+          <div class="table-card-header">
+            <div class="card-title" style="margin-bottom:0;">Live Immutable Audit Trail &mdash; Append-Only Log</div>
+            <button class="btn-secondary" style="font-size:12px;padding:4px 10px;" onclick="App.switchTab('reports')">View All Logs &rarr;</button>
+          </div>
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Timestamp (UTC)</th>
+                  <th>Actor</th>
+                  <th>Action</th>
+                  <th>Entity Target</th>
+                  <th>Differential Details</th>
+                </tr>
+              </thead>
+              <tbody id="admin-audit-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
     <!-- TAB 2: TRACE LOOKUP (Chain of Custody) -->
     <section id="tab-trace" class="tab-pane" style="display:none;">
@@ -394,6 +907,7 @@
     </section>
 
   </main>
+  </div>
 
   <!-- MODAL 1: START BATCH -->
   <div id="start-batch-modal" class="modal-overlay">
